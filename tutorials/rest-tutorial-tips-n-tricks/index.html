@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>reST tips & tricks - kittima.me</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+</style>
+
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+    <link href="/extra/favicon.ico" rel="icon">
+
+<link rel="canonical" href="/tutorials/rest-tutorial-tips-n-tricks/">
+
+        <meta name="author" content="Kittima Mekhabunchakij" />
+        <meta name="keywords" content="reStructuredText,tutorial,tips & tricks" />
+        <meta name="description" content="reStructuredText tutorial with examples showing how reST codes work, and how the browser displays Thai language" />
+
+        <meta property="og:site_name" content="kittima.me" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="reST tips &amp; tricks"/>
+        <meta property="og:url" content="/tutorials/rest-tutorial-tips-n-tricks/"/>
+        <meta property="og:description" content="reStructuredText tutorial with examples showing how reST codes work, and how the browser displays Thai language"/>
+        <meta property="article:published_time" content="2015-12-02" />
+            <meta property="article:section" content="Tutorials" />
+            <meta property="article:tag" content="reStructuredText" />
+            <meta property="article:tag" content="tutorial" />
+            <meta property="article:tag" content="tips & tricks" />
+            <meta property="article:author" content="Kittima Mekhabunchakij" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/pastie.css" rel="stylesheet">
+        <link href="/theme/css/html4css1.css" rel="stylesheet">
+        <link href="/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+        <link href="/static/custom.css" rel="stylesheet">
+
+
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+kittima.me            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="/pages/about-me.html">
+                             about&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="/category/tutorials">Tutorials</a>
+                        </li>
+                        <li >
+                            <a href="/category/walkthroughs">Walkthroughs</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="" title="kittima.me"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="/category/tutorials" title="Tutorials">Tutorials</a></li>
+                <li class="active">reST tips <span class="amp">&amp;</span>&nbsp;tricks</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/tutorials/rest-tutorial-tips-n-tricks/"
+                       rel="bookmark"
+                       title="Permalink to reST tips & tricks">
+                        reST tips <span class="amp">&amp;</span>&nbsp;tricks
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-12-02T14:20:00+07:00"> Wed 02 December 2015</time>
+    </span>
+
+
+
+        <span class="label label-default">Category</span>
+        <a href="/category/tutorials">Tutorials</a>
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/restructuredtext">reStructuredText</a>
+        /
+	<a href="/tag/tutorial">tutorial</a>
+        /
+	<a href="/tag/tips-tricks">tips & tricks</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="section" id="code-highlighting">
+<h2>Code highlighting</h2>
+<div class="section" id="inline-code-highlight">
+<h3>Inline code highlight</h3>
+<p>Usage: :code:<tt class="docutils literal">:code:</tt></p>
+<p>Examples:</p>
+<ul class="simple">
+<li>This is a variable, <code>:url:</code>.</li>
+<li><code>save_as</code> is not used here.</li>
+<li><code>:code:``a = b + c`</code> is interpreted by ReST as: <code>a = b + c</code></li>
+</ul>
+</div>
+<div class="section" id="code-block">
+<h3>Code-block</h3>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+<span class="lineno">2 </span>       <span class="k">print</span> <span class="s2">"Hello, World!"</span>
+</pre></div>
+<p><em>note</em> ___ Pelican implements an extension to reStructuredText to enable support for the <cite>&lt;abbr&gt;</cite> <span class="caps">HTML</span> tag. To use it, write something like this in your post:</p>
+<blockquote>
+This will be turned into <abbr><span class="caps">HTML</span> (HyperText Markup Language)</abbr>.</blockquote>
+<p>This will be turned into <abbr><span class="caps">HTML</span> (HyperText Markup Language)</abbr>.</p>
+<p>Another example: <abbr><span class="caps">LIFO</span> (last-in, first-out)</abbr></p>
+</div>
+<div class="section" id="include-code-with-code-include">
+<h3>Include code with code-include</h3>
+<div class="section" id="code-include-plugin">
+<h4>code-include plugin</h4>
+<p>It is also possible to include the content of a file as follows:</p>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="p">..</span> <span class="ow">code-include</span><span class="p">::</span> ../code/python/testing/mymath.py
+<span class="lineno">2 </span>        <span class="nc">:lexer:</span> <span class="nf">python</span>
+<span class="lineno">3 </span>        <span class="nc">:encoding:</span> <span class="nf">utf-8</span>
+<span class="lineno">4 </span>        <span class="nc">:tab-width:</span> <span class="nf">4</span>
+<span class="lineno">5 </span>        <span class="nc">:start-line:</span> <span class="nf">3</span>
+<span class="lineno">6 </span>        <span class="nc">:end-line:</span> <span class="nf">18</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="lineno">2 </span>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+</pre></div>
+<p>The plugin <tt class="docutils literal"><span class="pre">code-include</span></tt> is part of the <a class="reference external" href="https://github.com/getpelican/pelican-plugins">Pelican Plugins</a>.</p>
+</div>
+<div class="section" id="include-plugin">
+<h4>include plugin</h4>
+<p>From <tt class="docutils literal"><span class="pre">rest-tutorial-1-to-include.rst</span></tt> :</p>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="p">..</span> <span class="ow">include</span><span class="p">::</span> rest-tutorial-tips-footnotes.rst
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rest-footnote-example">
+<h2>reST footnote example</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"></col>
+<col class="field-body"></col>
+<tbody>
+<tr class="field"><th class="field-name">date:</th><td class="field-body">2015-12-02 14:20</td>
+</tr>
+<tr class="field"><th class="field-name">tags:</th><td class="field-body">reStructuredText, tutorial</td>
+</tr>
+<tr class="field"><th class="field-name">category:</th><td class="field-body">Tutorials</td>
+</tr>
+<tr class="field"><th class="field-name">status:</th><td class="field-body">published</td>
+</tr>
+</tbody>
+</table>
+<p><strong>beginning of file</strong>, rest-tutorial-tips-footnotes.rst</p>
+<p>Some text that requires a footnote <a class="footnote-reference" href="#f2" id="id1">[1]</a>.</p>
+<p class="rubric">this’s in <tt class="docutils literal">rubric::</tt> directive</p>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+
+<tbody>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Text of the 2nd footnote.</td></tr>
+</tbody>
+</table>
+<p><strong>end of file</strong></p>
+<p>Another example :</p>
+<p>The follwing is from <tt class="docutils literal">sample.py</tt> file.</p>
+<blockquote>
+<p><span class="dquo">“</span>”” here is a dummy documentation “””
+import os</p>
+<dl class="docutils">
+<dt>def square(x):</dt>
+<dd><dl class="first docutils">
+<dt>”’</dt>
+<dd>short description of the function square longish explanation: returns the square of x: <span class="formula"><i>x</i><sup>2</sup></span></dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"></col>
+<col class="field-body"></col>
+<tbody>
+<tr class="field"><th class="field-name">param a:</th><td class="field-body">an input argument</td>
+</tr>
+<tr class="field"><th class="field-name">returns:</th><td class="field-body">x*x</td>
+</tr>
+</tbody>
+</table>
+<p>”’</p>
+<p class="last">return x*x</p>
+</dd>
+</dl>
+<p>assert 4 == square(2)</p>
+</blockquote>
+<p><span class="dquo">“</span>”” here is a dummy documentation “””
+import os</p>
+<dl class="docutils">
+<dt>def square(x):</dt>
+<dd><dl class="first docutils">
+<dt>”’</dt>
+<dd>short description of the function square longish explanation: returns the square of x: <span class="formula"><i>x</i><sup>2</sup></span></dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"></col>
+<col class="field-body"></col>
+<tbody>
+<tr class="field"><th class="field-name">param a:</th><td class="field-body">an input argument</td>
+</tr>
+<tr class="field"><th class="field-name">returns:</th><td class="field-body">x*x</td>
+</tr>
+</tbody>
+</table>
+<p>”’</p>
+<p class="last">return x*x</p>
+</dd>
+</dl>
+<p>assert 4 == square(2)</p>
+</div>
+<div class="section" id="hyperlinks">
+<h2>Hyperlinks</h2>
+<div class="section" id="external-links">
+<h3>External links</h3>
+<ul class="simple">
+<li>Simple links - <a class="reference external" href="http://www.python.org/">Python</a></li>
+</ul>
+<ul class="simple">
+<li>Implicit links, <a class="reference internal" href="#image-and-figure">Image and Figure</a></li>
+</ul>
+</div>
+<div class="section" id="internal-links">
+<h3>Internal links</h3>
+<p>These are internal links</p>
+<ul class="simple">
+<li>a page, <a class="reference external" href="/pages/about-me.html">About me</a></li>
+<li>a post, <a class="reference external" href="/tutoriials/2015/markdown-tutorial/">Markdown tutorial</a>  in <em>category</em> <a class="reference external" href="/category/tutorials/">Tutorials</a>, <cite>tagged</cite> <a class="reference external" href="/tag/markdown/">Markdown</a>.</li>
+</ul>
+<p>These are code for the above links:</p>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="s">`About me </span><span class="si">&lt;/pages/about-me.html&gt;</span><span class="s">`_</span>
+<span class="lineno">2 </span>
+<span class="lineno">3 </span><span class="s">`Markdown tutorial </span><span class="si">&lt;/tutoriials/2015/markdown-tutorial/&gt;</span><span class="s">`_</span>
+<span class="lineno">4 </span>
+<span class="lineno">5 </span><span class="s">`Tutorials </span><span class="si">&lt;/category/tutorials/&gt;</span><span class="s">`_</span>
+<span class="lineno">6 </span>
+<span class="lineno">7 </span><span class="s">`Markdown </span><span class="si">&lt;/tag/markdown/&gt;</span><span class="s">`_</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image-and-figure">
+<h2>Image and Figure</h2>
+<div class="section" id="image">
+<h3>Image</h3>
+<p>How to show an image?</p>
+<img alt="a test image (bird)" src="/images/birdJapanese-test-image-x400.jpg"/>
+</div>
+<div class="section" id="figure">
+<h3>Figure</h3>
+<blockquote>
+Image with a caption:</blockquote>
+<div class="align-center figure">
+<img alt="alternate text" src="/images/birdJapanese-test-image-x400.jpg" style="height: 100px;"/>
+<p class="caption">figure are like images but with a caption
+and whatever else youwish to add</p>
+<div class="legend">
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="kn">import</span> <span class="nn">image</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="aliases">
+<h2>Aliases</h2>
+<p>Using the <code>logo</code> :</p>
+<p>Using this image alias, you can insert it easily in the text <code>|logo|</code>, like this <img alt="logo" src="/images/birdJapanese-test-image-x400.jpg" style="height: 15px;"/>. This is especially useful when dealing with complicated code. For instance, in order to include 2 images within a table do as follows:</p>
+<table class="docutils">
+
+<tbody>
+<tr><td><img alt="logo" src="/images/birdJapanese-test-image-x400.jpg" style="height: 15px;"/></td>
+<td><img alt="logo" src="/images/birdJapanese-test-image-x400.jpg" style="height: 15px;"/></td>
+<td>this is a very  long text to include</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="text-features">
+<h2>Text features</h2>
+<div class="section" id="footnotes-and-citations">
+<h3>Footnotes and citations</h3>
+<p>Use code <cite>[#x]</cite> and <cite>_[#x]:</cite> for a footnote.</p>
+<div class="section" id="footnotes">
+<h4>Footnotes</h4>
+<p>Some text that requires a <tt class="docutils literal">footnote</tt> <a class="footnote-reference" href="#f1" id="id2">[2]</a> .</p>
+</div>
+<div class="section" id="citations">
+<h4>Citations</h4>
+<p>อ้างอิง <a class="citation-reference" href="#tco2015" id="id3">[<span class="caps">TCO2015</span>]</a> (see Bibliography below)</p>
+</div>
+</div>
+</div>
+<div class="section" id="boxes">
+<h2>Boxes</h2>
+<p>The directives that work on this site: <code>note::</code>, <code>warning::</code>, <code>topic::</code>, <code>rubric::</code>, <code>sidebar</code></p>
+<p><strong>Usage of a directive</strong></p>
+<p>An example of directive note,</p>
+<blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name"></col>
+<col class="field-body"></col>
+<tbody>
+<tr class="field"><th class="field-name">code:</th><td class="field-body"><cite>.. “note::`</cite>  This is a <strong>note</strong> box.</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>note</strong></p>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a <strong>note</strong> box.</p>
+</div>
+<p><strong>warning</strong></p>
+<div class="warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">note the space between the directive and the text</p>
+</div>
+<p><strong>rubric</strong></p>
+<p class="rubric"><em>rubric</em> n.
+1. a title, heading, or the like, in a manuscript, book, statute, etc., written or printed in red or otherwise distinguished from the rest of the text. …
+—Random House Webster’s College Dictionary, 1991</p>
+<p><strong>topic</strong></p>
+<div class="topic">
+<p class="topic-title first">Your Topic Title</p>
+<p>Subsequent indented lines comprise
+the body of the topic, and are
+interpreted as body elements.</p>
+</div>
+<p><strong>sidebar</strong></p>
+<div class="sidebar">
+<p class="first sidebar-title">Sidebar Title</p>
+<p class="sidebar-subtitle">Optional Sidebar Subtitle</p>
+<p class="last">Subsequent indented lines comprise
+the body of the sidebar, and are
+interpreted as body elements.</p>
+</div>
+<hr class="docutils"/>
+<div class="section" id="glossary-seealso">
+<h3>glossary, seealso</h3>
+<dl class="docutils">
+<dt>Not work .. glossary ::</dt>
+<dd><dl class="first last docutils">
+<dt>Open Data</dt>
+<dd>Open Data Handbook (ไทย), <a class="reference external" href="https://sites.google.com/site/odhandbook/">https://sites.google.com/site/odhandbook/</a> and <a class="reference external" href="https://sites.google.com/site/od4thl/">https://sites.google.com/site/od4thl/</a></dd>
+</dl>
+</dd>
+</dl>
+<p>Not work .. seealso:: This is a simple <strong>seealso</strong> note.</p>
+</div>
+</div>
+<div class="section" id="maths-and-special-codes">
+<h2>Maths and special codes</h2>
+<div class="section" id="math">
+<h3>Math</h3>
+<div class="section" id="basics">
+<h4>Basics</h4>
+<p>MathJAX and Latex.</p>
+<div class="section" id="usage">
+<h5>Usage:</h5>
+<p><code>.. ``math::``</code> in the beginnging of the line.</p>
+<p>Examples:</p>
+<p>The well known quadratic formula:</p>
+<div class="formula">
+<i>x</i> =  − <i>b</i>±<span class="fraction"><span class="ignored">(</span><span class="numerator"><span class="sqrt"><span class="radical">√</span><span class="ignored">(</span><span class="root"><i>b</i><sup>2</sup> − 4<i>ac</i></span><span class="ignored">)</span></span></span><span class="ignored">)/(</span><span class="denominator">2<i>a</i></span><span class="ignored">)</span></span>
+</div>
+<div class="formula">
+<i>n</i><sub><span class="mathrm">offset</span></sub> = <span class="limits"><sup class="limit"><i>N</i> − 1</sup><span class="limit"><span class="symbol">∑</span></span><sub class="limit"><i>k</i> = 0</sub></span><i>s</i><sub><i>k</i></sub><i>n</i><sub><i>k</i></sub>
+</div>
+<p>One can also include maths inline, such as the following:</p>
+<p>The power series, <span class="formula"><span class="fraction"><span class="ignored">(</span><span class="numerator">1</span><span class="ignored">)/(</span><span class="denominator">0!</span><span class="ignored">)</span></span> + <span class="fraction"><span class="ignored">(</span><span class="numerator">2</span><span class="ignored">)/(</span><span class="denominator">1!</span><span class="ignored">)</span></span><i>x</i> + <span class="fraction"><span class="ignored">(</span><span class="numerator">3</span><span class="ignored">)/(</span><span class="denominator">2!</span><span class="ignored">)</span></span><i>x</i><sup>2</sup> + <span class="fraction"><span class="ignored">(</span><span class="numerator">4</span><span class="ignored">)/(</span><span class="denominator">3!</span><span class="ignored">)</span></span><i>x</i><sup>3</sup> + …</span> states that…</p>
+<p>To include maths inline, use <cite>:math:</cite>. for example:</p>
+<p><code>:math:`</code>frac{1}{0!}+frac{2}{1!}x+frac{3}{2!}x^2+frac{4}{3!}x^3+…“`</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="additional-info">
+<h2>Additional info</h2>
+<div class="section" id="id4">
+<h3>Footnotes</h3>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+
+<tbody>
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Text of the first footnote.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bibliography">
+<h3>Bibliography</h3>
+<table class="docutils citation" frame="void" id="tco2015" rules="none">
+
+<tbody>
+<tr><td class="label"><a class="fn-backref" href="#id3">[<span class="caps">TCO2015</span>]</a></td><td>Restructured Text (reST) and Sphinx CheatSheet
+by Thomas Cokelaer, <a class="reference external" href="http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html#rst-tutorial">http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html#rst-tutorial</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+			
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="/images/profile-kittimaMe.jpg"/>
+        </p>
+    <p>
+        <strong>About Kittima Mehabunchakij</strong><br/>
+        Computing & software educator extraordinaire
+    </p>
+</div>
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://www.linkedin.com/in/kittima"><i class="fa fa-linkedin-square fa-lg"></i> LinkedIn</a></li>
+                <li class="list-group-item"><a href="https://github.com/Kittima"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+              </ul>
+            </li>
+
+
+
+            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group list-inline tagcloud" id="tags">
+                </ul>
+            </li>
+
+
+    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+      <ul class="list-group" id="links">
+        <li class="list-group-item">
+            <a href="http://getpelican.com/" target="_blank">
+                Pelican
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="http://python.org/" target="_blank">
+                Python.org
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="http://www.r-bloggers.com/" target="_blank">
+                R-bloggers
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="http://sites.google.com/a/tni.ac.th/kittimame" target="_blank">
+                Kittima.Me
+            </a>
+        </li>
+      </ul>
+    </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Kittima Mehabunchakij
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
